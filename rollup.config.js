@@ -3,8 +3,10 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import autoPreprocess from 'svelte-preprocess';
 
 const production = !process.env.ROLLUP_WATCH;
+const sveltePreprocess = require('svelte-preprocess');
 
 export default {
   input: 'src/main.js',
@@ -20,9 +22,10 @@ export default {
       dev: !production,
       // we'll extract any component CSS out into
       // a separate file — better for performance
-      css: css => {
+      css: (css) => {
         css.write('public/bundle.css');
       },
+      preprocess: autoPreprocess(),
     }),
 
     // If you have external dependencies installed from

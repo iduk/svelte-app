@@ -1,16 +1,27 @@
 <script>
-  import { onMount } from "svelte";
   export let date;
-
+  // onMount
+  import { onMount } from "svelte";
   onMount(async () => {
     const res = await fetch("/api/date");
     const newDate = await res.text();
     date = newDate;
   });
+  // Modal
+  import Modal from "./Components/Modal.svelte";
+  let showModal = false;
 </script>
 
+<svelte:head>
+  <p>{date ? date : 'Loading date...'}</p>
+
+  <style lang="scss">
+    @import "./Scss/Styles.scss";
+  </style>
+</svelte:head>
+
 <main>
-  <h1>Svelte + Node.js API</h1>
+  <h1>Svelte + Node.js API ㅋㅋ</h1>
   <h2>
     Deployed with
     <a href="https://vercel.com/docs" target="_blank" rel="noreferrer noopener">
@@ -18,12 +29,13 @@
     </a>
     !
   </h2>
+
   <p>
     <a
       href="https://github.com/vercel/vercel/tree/master/examples/svelte"
       target="_blank"
       rel="noreferrer noopener">
-      This project
+      This project Test
     </a>
     is a
     <a href="https://svelte.dev/">Svelte</a>
@@ -44,5 +56,19 @@
   </p>
   <br />
   <h2>The date according to Node.js is:</h2>
-  <p>{date ? date : 'Loading date...'}</p>
+
+  <button on:click={() => (showModal = true)}>show modal</button>
+
+  {#if showModal}
+    <Modal on:close={() => (showModal = false)}>
+      <h2 slot="header">
+        modal
+        <small>
+          <em>adjective</em>
+          asdfasdfasdfa
+        </small>
+      </h2>
+    </Modal>
+  {/if}
+
 </main>
